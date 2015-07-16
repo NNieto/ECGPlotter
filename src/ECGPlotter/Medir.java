@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -35,8 +36,8 @@ public class Medir implements ActionListener {
     // Declaracion de Variables
     int i = 0;
     Random rnd = new Random();
-    JFrame mainFrame = new JFrame();
-    Container contentPane = mainFrame.getContentPane();
+    JDialog mainDialog = new JDialog();
+    Container contentPane = mainDialog.getContentPane();
     JPanel mainPanel = new JPanel();
     ChartPanel chart;
     JMenuBar mainMenu = new JMenuBar();
@@ -56,16 +57,16 @@ public class Medir implements ActionListener {
         serie1.add(0, 0);
         collection.addSeries(serie1);
         // Set properties 
-        mainFrame.setTitle(titulo);
+        mainDialog.setTitle(titulo);
         archivo.add(pacienteNuevo);
         archivo.add(cargarPaciente);
         archivo.add(guardar);
         mainMenu.add(archivo);
-        mainFrame.setJMenuBar(mainMenu);
+        mainDialog.setJMenuBar(mainMenu);
         //    osc.setBackground(Color.black);
         // osc.setBorder(BorderFactory.createLoweredBevelBorder());
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(800, 600);
+       // mainDialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+        mainDialog.setSize(800, 600);
         guardar.setBounds(300, 250, 100, 30);
         nombrePaciente.setBounds(150, 60, 100, 20);
         mainPanel.setBounds(180, 0, 610, 600);
@@ -85,7 +86,7 @@ public class Medir implements ActionListener {
         // contentPane.add(scrollNotas);
         //final JFreeChart grafica = osc.crearGrafica(collection);
         //  osc.crearGrafica(collection);
-        mainFrame.setVisible(true);
+        mainDialog.setVisible(true);
     }
 
     @Override
@@ -93,10 +94,7 @@ public class Medir implements ActionListener {
         String Accion = e.getActionCommand();
 
         if ("Cargar Paciente".equals(Accion)) {
-            CargarPaciente cp = new CargarPaciente(mainFrame, true);
-            String[] valores = cp.obtenerPaciente();
-            nombrePaciente.setText("#" + valores[0] + " " + valores[1] + " " + valores[2]);
-            notas.setText(valores[4]);
+            
         }
 
         if ("Guardar".equals(Accion)) {

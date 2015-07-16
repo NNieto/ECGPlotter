@@ -70,7 +70,7 @@ public class ECGPlotter implements ActionListener {
         archivo.add(guardar);
         mainMenu.add(archivo);
         mainFrame.setJMenuBar(mainMenu);
-    //    osc.setBackground(Color.black);
+        //    osc.setBackground(Color.black);
         // osc.setBorder(BorderFactory.createLoweredBevelBorder());
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 600);
@@ -84,7 +84,7 @@ public class ECGPlotter implements ActionListener {
         guardar.addActionListener(this);
         chart = new ChartPanel(osc.crearGrafica(collection));
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(chart,BorderLayout.NORTH);
+        mainPanel.add(chart, BorderLayout.NORTH);
         // Añadiendo componentes al contenedor
         contentPane.setLayout(null);
         contentPane.add(nombrePaciente);
@@ -118,7 +118,9 @@ public class ECGPlotter implements ActionListener {
         }
 
         if ("Paciente Nuevo".equals(Accion)) {
-            CrearPaciente np = new CrearPaciente(mainFrame, true);
+            CrearPaciente dialog = new CrearPaciente(new java.awt.Frame(), true);
+            
+            dialog.setVisible(true);
 
         }
 
