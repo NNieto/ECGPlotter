@@ -35,7 +35,7 @@ public class Osciloscopio {
  
 	public JFreeChart crearGrafica(XYSeriesCollection dataset) {
  
-		final JFreeChart chart = ChartFactory.createXYLineChart("ECG", "Voltios", "Tiempo (segundos)", 
+		final JFreeChart chart = ChartFactory.createXYLineChart("ECG", "Tiempo", "Voltios", 
 				dataset,
 				PlotOrientation.VERTICAL, 
 				true, // uso de leyenda
@@ -69,21 +69,21 @@ public class Osciloscopio {
 	// configuramos el eje X de la gráfica (se muestran números enteros y de uno en uno)
 	private void configurarDomainAxis (NumberAxis domainAxis) {
 		domainAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		domainAxis.setTickUnit(new NumberTickUnit(1));
+		domainAxis.setTickUnit(new NumberTickUnit(10));
 	}
 	
 	// configuramos el eje y de la gráfica (números enteros de dos en dos y rango entre 120 y 135)
 	private void configurarRangeAxis (NumberAxis rangeAxis) {
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		rangeAxis.setTickUnit(new NumberTickUnit(2));
-		rangeAxis.setRange(120, 135);
+		rangeAxis.setTickUnit(new NumberTickUnit(10));
+		rangeAxis.setRange(-50, 50);
 	}
 	
 	// configuramos las líneas de las series (añadimos un círculo en los puntos y asignamos el color de cada serie)
 	private void configurarRendered (XYLineAndShapeRenderer renderer) {
-		renderer.setSeriesShapesVisible(0, true);
-		renderer.setSeriesShapesVisible(1, true);
+		renderer.setSeriesShapesVisible(0, false);
+		//renderer.setSeriesShapesVisible(1, true);
 		renderer.setSeriesPaint(0, COLOR_SERIE_1);
-		renderer.setSeriesPaint(1, COLOR_SERIE_2);
+		//renderer.setSeriesPaint(1, COLOR_SERIE_2);
 	}
 }
