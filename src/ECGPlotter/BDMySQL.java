@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -42,24 +43,24 @@ public class BDMySQL {
         }
     }
  
-    public void createDB(String name) {
+    public void CrearBD(String nombre) {
         try {
-            String Query = "CREATE DATABASE " + name;
+            String Query = "CREATE DATABASE " + nombre;
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-            MySQLConnection("root", "", name);
-            JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa");
+            MySQLConnection("root", "", nombre);
+            System.out.println("Se ha creado la base de datos " + nombre + " de forma exitosa");
         } catch (SQLException ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
  
-    public void createTable(String name) {
+    public void CrearTabla(String nombre) {
         try {
-            String Query = "CREATE TABLE " + name + ""
-                    + "(ID VARCHAR(25),Nombre VARCHAR(50), Apellido VARCHAR(50),"
-                    + " Edad VARCHAR(3), Sexo VARCHAR(1))";
-            JOptionPane.showMessageDialog(null, "Se ha creado la base de tabla " + name + " de forma exitosa");
+            String Query = "CREATE TABLE " + nombre + ""
+                    + "(user_id int NOT NULL AUTO_INCREMENT,Nombre VARCHAR(50), Apellido VARCHAR(50),"
+                    + " registro_ecg VARCHAR(300), observaciones VARCHAR(300),PRIMARY KEY (user_id))";
+            System.out.println("Se ha creado la base de tabla " + nombre + " de forma exitosa");
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
         } catch (SQLException ex) {
@@ -67,26 +68,26 @@ public class BDMySQL {
         }
     }
  
-    public void insertData(String table_name, String ID, String name, String lastname, String age, String gender) {
+    public void InsertarDatos(String nombre_tabla, String _id, String nombre, String apellido, String registro_ecg, String observaciones) {
         try {
-            String Query = "INSERT INTO " + table_name + " VALUES("
-                    + "\"" + ID + "\", "
-                    + "\"" + name + "\", "
-                    + "\"" + lastname + "\", "
-                    + "\"" + age + "\", "
-                    + "\"" + gender + "\")";
+            String Query = "INSERT INTO " + nombre_tabla + "(nombre,apellido,registro_ecg,observaciones) VALUES("
+                    // + "\"" + _id + "\", "
+                    + "\"" + nombre + "\", "
+                    + "\"" + apellido + "\", "
+                    + "\"" + registro_ecg + "\", "
+                    + "\"" + observaciones + "\")";
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-            JOptionPane.showMessageDialog(null, "Datos almacenados de forma exitosa");
+            System.out.println("Datos almacenados de forma exitosa");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error en el almacenamiento de datos");
+            System.out.println("Error en el almacenamiento de datos");
         }
     }
  
-    public String[] getValues(String table_name, String nombre) {
+    public String[] ObtenerValores(String nombre_tabla, String nombre) {
        String[] valores = new String[5]; 
         try {
-            String Query = "SELECT * FROM " + table_name + " WHERE nombre = \"" + nombre + "\"";
+            String Query = "SELECT * FROM " + nombre_tabla + " WHERE nombre = \"" + nombre + "\"";
             Statement st = Conexion.createStatement();
             java.sql.ResultSet resultSet;
             resultSet = st.executeQuery(Query);
@@ -97,6 +98,31 @@ public class BDMySQL {
                valores[2] = resultSet.getString("apellidos");
                valores[3] = resultSet.getString("registro_ecg");
                valores[4] = resultSet.getString("observaciones");
+   
+            }
+            
+            
+ 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la adquisición de datos" +ex);
+        }
+        
+        return valores;
+    }
+
+    public Vector ListarUsuarios() {
+       Vector valores = new Vector();
+       
+       String nombre_tabla = "usuarios";
+        try {
+            String Query = "SELECT * FROM " + nombre_tabla;
+            Statement st = Conexion.createStatement();
+            java.sql.ResultSet resultSet;
+            resultSet = st.executeQuery(Query);
+            
+            while (resultSet.next()) {
+               
+                valores.addElement(resultSet.getString("_id") + "-" + resultSet.getString("nombre") + "-" + resultSet.getString("apellido"));
    
             }
             

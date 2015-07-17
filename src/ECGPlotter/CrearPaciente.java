@@ -132,12 +132,16 @@ public class CrearPaciente extends java.awt.Dialog {
 
     private void GuardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println("Guardar");
+        bd.MySQLConnection(userBD, PassBD, nombreBD);
+        bd.InsertarDatos("usuarios","",NombreField.getText(),ApellidosField.getText(),"","");
+        bd.closeConnection();
+        dispose();
     }//GEN-LAST:event_GuardarButtonActionPerformed
 
     private void CancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarButtonActionPerformed
         // TODO add your handling code here:
         System.out.println("Cancelar");
+        dispose();
     }//GEN-LAST:event_CancelarButtonActionPerformed
 
 
@@ -150,4 +154,6 @@ public class CrearPaciente extends java.awt.Dialog {
     private javax.swing.JTextField NombreField;
     private javax.swing.JLabel NombreLabel;
     // End of variables declaration//GEN-END:variables
+    BDMySQL bd = new BDMySQL();
+    String userBD = "root", PassBD = "root", nombreBD = "ECGPlotter";
 }

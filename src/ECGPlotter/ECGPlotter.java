@@ -32,6 +32,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class ECGPlotter implements ActionListener {
 
     // Declaracion de Variables
+    BDMySQL bd = new BDMySQL();
+    String userBD = "root", PassBD = "root", nombreBD = "ECGPlotter";
     JFrame mainFrame = new JFrame();
     Container contentPane = mainFrame.getContentPane();
     JPanel mainPanel = new JPanel();
@@ -51,6 +53,9 @@ public class ECGPlotter implements ActionListener {
     final XYSeriesCollection collection = new XYSeriesCollection();
 
     public ECGPlotter(String titulo) {
+        bd.MySQLConnection(userBD, PassBD, nombreBD);
+        bd.CrearTabla("usuarios");
+        bd.closeConnection();
         serie1.add(1, 131.78);
         serie1.add(2, 129.95);
         serie1.add(3, 128.16);
@@ -107,19 +112,19 @@ public class ECGPlotter implements ActionListener {
 
         if ("Cargar Paciente".equals(Accion)) {
             CargarPaciente cp = new CargarPaciente(mainFrame, true);
-            String[] valores = cp.obtenerPaciente();
-            nombrePaciente.setText("#" + valores[0] + " " + valores[1] + " " + valores[2]);
-            notas.setText(valores[4]);
+            cp.setVisible(true);
         }
 
         if ("Guardar".equals(Accion)) {
-            BDMySQL ECG = new BDMySQL();
+            Medir medir = new Medir(mainFrame, true);
+            medir.setResizable(false);
+            medir.setVisible(true);
 
         }
 
         if ("Paciente Nuevo".equals(Accion)) {
-            CrearPaciente dialog = new CrearPaciente(new java.awt.Frame(), true);
-            
+            CrearPaciente dialog = new CrearPaciente(mainFrame, true);
+
             dialog.setVisible(true);
 
         }
