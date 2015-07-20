@@ -5,6 +5,8 @@
  */
 package ECGPlotter;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Alejandro
@@ -29,9 +31,7 @@ public class CargarPaciente extends java.awt.Dialog {
 
         BuscarLabel = new javax.swing.JLabel();
         BuscarField = new javax.swing.JTextField();
-        BarraProgreso = new javax.swing.JProgressBar();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ListaResultado = new javax.swing.JList();
+        Buscar = new javax.swing.JButton();
 
         setTitle("Buscar Paciente");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -40,38 +40,39 @@ public class CargarPaciente extends java.awt.Dialog {
             }
         });
 
-        BuscarLabel.setText("Buscar...");
+        BuscarLabel.setText("Cédula");
 
-        jScrollPane1.setViewportView(ListaResultado);
+        BuscarField.setToolTipText("Cedula");
+
+        Buscar.setText("Buscar");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BuscarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(BuscarField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(BarraProgreso, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BuscarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(BuscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Buscar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(BuscarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BuscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BarraProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BuscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Buscar)
+                    .addComponent(BuscarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -85,13 +86,30 @@ public class CargarPaciente extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_closeDialog
 
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+        // TODO add your handling code here:
+        String valores[] = null;
+        if(!"".equals(BuscarField.getText())){
+        bd.MySQLConnection("root", "root", "ECGPlotter");
+        valores = bd.ObtenerValores("usuarios", Integer.parseInt(BuscarField.getText()));
+        bd.closeConnection();
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese un numero de cédula valido por favor" + BuscarField.getText() + "","...",2);
+        }
+        if(valores[1] == null){
+            JOptionPane.showMessageDialog(this, "No se encontró un usuario con el numero de cedula: " + BuscarField.getText() + "","...",2);
+        }else{
+            dispose();
+        }
+        System.out.println(valores[2]);
+    }//GEN-LAST:event_BuscarActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar BarraProgreso;
+    private javax.swing.JButton Buscar;
     private javax.swing.JTextField BuscarField;
     private javax.swing.JLabel BuscarLabel;
-    private javax.swing.JList ListaResultado;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    BDMySQL bd = new BDMySQL();
 }

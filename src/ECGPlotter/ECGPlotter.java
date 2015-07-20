@@ -53,9 +53,14 @@ public class ECGPlotter implements ActionListener {
     final XYSeriesCollection collection = new XYSeriesCollection();
 
     public ECGPlotter(String titulo) {
+        try{
         bd.MySQLConnection(userBD, PassBD, nombreBD);
         bd.CrearTabla("usuarios");
         bd.closeConnection();
+        }
+        catch(Exception e){
+        
+        }
         serie1.add(1, 131.78);
         serie1.add(2, 129.95);
         serie1.add(3, 128.16);

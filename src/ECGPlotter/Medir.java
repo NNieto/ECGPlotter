@@ -37,8 +37,6 @@ public class Medir extends java.awt.Dialog {
 
         jScrollBar1 = new javax.swing.JScrollBar();
         ContenedorOsciloscopio = new javax.swing.JPanel();
-        ControlLabel = new javax.swing.JLabel();
-        Usuarios = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         ObservacionesArea = new javax.swing.JTextArea();
         ObservacionesLabel = new javax.swing.JLabel();
@@ -55,23 +53,12 @@ public class Medir extends java.awt.Dialog {
 
         ContenedorOsciloscopio.setBackground(new java.awt.Color(102, 102, 102));
 
-        ControlLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ControlLabel.setText("Controles");
-        ControlLabel.setToolTipText("");
-
-        Usuarios.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Usuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Usuarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UsuariosActionPerformed(evt);
-            }
-        });
-
         ObservacionesArea.setColumns(20);
         ObservacionesArea.setRows(5);
         jScrollPane1.setViewportView(ObservacionesArea);
 
         ObservacionesLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        ObservacionesLabel.setForeground(new java.awt.Color(0, 102, 255));
         ObservacionesLabel.setText("Observaciones");
         ObservacionesLabel.setToolTipText("");
 
@@ -96,7 +83,6 @@ public class Medir extends java.awt.Dialog {
         GuardarECG.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         GuardarECG.setText("Guardar Registro ECG");
         GuardarECG.setToolTipText("");
-        GuardarECG.setActionCommand("Guardar Registro ECG");
         GuardarECG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GuardarECGActionPerformed(evt);
@@ -107,47 +93,41 @@ public class Medir extends java.awt.Dialog {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+            .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ControlLabel)
-                            .addComponent(Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ObservacionesLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(172, 172, 172)
+                                .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(GuardarImagenBoton)
+                                .addGap(39, 39, 39)
+                                .addComponent(GuardarECG, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(ObservacionesLabel)))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(GuardarImagenBoton)
-                        .addGap(35, 35, 35)
-                        .addComponent(GuardarECG))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(ControlLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(ObservacionesLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100))
-                    .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ObservacionesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GuardarImagenBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GuardarECG, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 29, Short.MAX_VALUE))
+                    .addComponent(Grabar)
+                    .addComponent(GuardarImagenBoton)
+                    .addComponent(GuardarECG))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,10 +140,6 @@ public class Medir extends java.awt.Dialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_closeDialog
-
-    private void UsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuariosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UsuariosActionPerformed
 
     private void GrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GrabarActionPerformed
         // TODO add your handling code here:
@@ -182,12 +158,10 @@ public class Medir extends java.awt.Dialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContenedorOsciloscopio;
-    private javax.swing.JLabel ControlLabel;
     private javax.swing.JButton Grabar;
     private javax.swing.JButton GuardarImagenBoton;
     private javax.swing.JTextArea ObservacionesArea;
     private javax.swing.JLabel ObservacionesLabel;
-    private javax.swing.JComboBox Usuarios;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

@@ -29,7 +29,7 @@ public class Osciloscopio {
  
 	private static Color COLOR_SERIE_2 = new Color(28, 84, 140);
  
-	private static Color COLOR_RECUADROS_GRAFICA = new Color(31, 87, 4);
+	private static Color COLOR_RECUADROS_GRAFICA = new Color(255, 255, 255);
  
 	private static Color COLOR_FONDO_GRAFICA = Color.white;
  

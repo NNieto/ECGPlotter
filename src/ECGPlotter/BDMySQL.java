@@ -59,7 +59,8 @@ public class BDMySQL {
         try {
             String Query = "CREATE TABLE " + nombre + ""
                     + "(user_id int NOT NULL AUTO_INCREMENT,Nombre VARCHAR(50), Apellido VARCHAR(50),"
-                    + " registro_ecg VARCHAR(300), observaciones VARCHAR(300),PRIMARY KEY (user_id))";
+                    + " registro_ecg VARCHAR(300), observaciones VARCHAR(300),cedula int,correo VARCHAR(100)"
+                    + ",direccion VARCHAR(100),telefono int, sexo VARCHAR(1),antecedentes VARCHAR(500),PRIMARY KEY (user_id))";
             System.out.println("Se ha creado la base de tabla " + nombre + " de forma exitosa");
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
@@ -68,14 +69,20 @@ public class BDMySQL {
         }
     }
  
-    public void InsertarDatos(String nombre_tabla, String _id, String nombre, String apellido, String registro_ecg, String observaciones) {
+    public void InsertarDatos(String nombre_tabla, String _id, String nombre, String apellido, String registro_ecg, String observaciones, int cedula, String correo, String direccion, int  telefono, String sexo, String antecedentes) {
         try {
-            String Query = "INSERT INTO " + nombre_tabla + "(nombre,apellido,registro_ecg,observaciones) VALUES("
+            String Query = "INSERT INTO " + nombre_tabla + "(nombre,apellido,registro_ecg,observaciones,cedula,correo,direccion,telefono,sexo,antecedentes) VALUES("
                     // + "\"" + _id + "\", "
                     + "\"" + nombre + "\", "
                     + "\"" + apellido + "\", "
                     + "\"" + registro_ecg + "\", "
-                    + "\"" + observaciones + "\")";
+                    + "\"" + observaciones + "\", "
+                    + "\"" + cedula + "\", "
+                    + "\"" + correo + "\", "
+                    + "\"" + direccion + "\", "
+                    + "\"" + telefono + "\", "
+                    + "\"" + sexo + "\", "
+                    + "\"" + antecedentes + "\")";
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
             System.out.println("Datos almacenados de forma exitosa");
@@ -84,20 +91,26 @@ public class BDMySQL {
         }
     }
  
-    public String[] ObtenerValores(String nombre_tabla, String nombre) {
-       String[] valores = new String[5]; 
+    public String[] ObtenerValores(String nombre_tabla, int cedula) {
+       String[] valores = new String[12]; 
         try {
-            String Query = "SELECT * FROM " + nombre_tabla + " WHERE nombre = \"" + nombre + "\"";
+            String Query = "SELECT * FROM " + nombre_tabla + " WHERE cedula = \"" + cedula + "\"";
             Statement st = Conexion.createStatement();
             java.sql.ResultSet resultSet;
             resultSet = st.executeQuery(Query);
             
             while (resultSet.next()) {
-               valores[0] = "" + resultSet.getString("_id");
+               valores[0] = "" + resultSet.getString("user_id");
                valores[1] = resultSet.getString("nombre");
-               valores[2] = resultSet.getString("apellidos");
+               valores[2] = resultSet.getString("apellido");
                valores[3] = resultSet.getString("registro_ecg");
                valores[4] = resultSet.getString("observaciones");
+               valores[5] = resultSet.getString("cedula");
+               valores[6] = resultSet.getString("correo");
+               valores[7] = resultSet.getString("direccion");
+               valores[8] = resultSet.getString("telefono");
+               valores[9] = resultSet.getString("sexo");
+               valores[11] = resultSet.getString("antecedentes");
    
             }
             
