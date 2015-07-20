@@ -5,7 +5,12 @@
  */
 package ECGPlotter;
 
+import com.panamahitek.PanamaHitek_Arduino;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.chart.ChartPanel;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -25,6 +30,11 @@ public class Medir extends java.awt.Dialog {
         chart = new ChartPanel(osc.crearGrafica(collection));
         ContenedorOsciloscopio.setLayout(new BorderLayout());
         ContenedorOsciloscopio.add(chart, BorderLayout.CENTER);
+        try {
+            arduino.ArduinoRX("COM3",2000, 9600, evento);
+        } catch (Exception ex) {
+            Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -169,4 +179,16 @@ public class Medir extends java.awt.Dialog {
     Osciloscopio osc = new Osciloscopio();
     final XYSeries serie1 = new XYSeries("ECG");
     final XYSeriesCollection collection = new XYSeriesCollection();
+    PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
+    SerialPortEventListener evento = new SerialPortEventListener() {
+
+        @Override
+        public void serialEvent(SerialPortEvent spe) {
+           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(arduino.isMessageAvailable() == true){
+                System.out.println("eee");
+            } else {
+            }
+        }
+    };
 }
