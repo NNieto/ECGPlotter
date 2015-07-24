@@ -19,6 +19,7 @@ public class CargarPaciente extends java.awt.Dialog {
     public CargarPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
     }
 
     /**
@@ -88,10 +89,9 @@ public class CargarPaciente extends java.awt.Dialog {
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         // TODO add your handling code here:
-        String valores[] = null;
         if(!"".equals(BuscarField.getText())){
-        bd.MySQLConnection("root", "root", "ECGPlotter");
-        valores = bd.ObtenerValores("usuarios", Integer.parseInt(BuscarField.getText()));
+        bd.MySQLConnection();
+        valores = bd.ObtenerPacientePorCedula("pacientes", Integer.parseInt(BuscarField.getText()));
         bd.closeConnection();
         }else{
             JOptionPane.showMessageDialog(this, "Ingrese un numero de cédula valido por favor" + BuscarField.getText() + "","...",2);
@@ -103,7 +103,10 @@ public class CargarPaciente extends java.awt.Dialog {
         }
         System.out.println(valores[2]);
     }//GEN-LAST:event_BuscarActionPerformed
-
+    
+    public String[] ObtenerResultadoBusqueda(){
+        return valores;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -111,5 +114,6 @@ public class CargarPaciente extends java.awt.Dialog {
     private javax.swing.JTextField BuscarField;
     private javax.swing.JLabel BuscarLabel;
     // End of variables declaration//GEN-END:variables
-    BDMySQL bd = new BDMySQL();
+    private BDMySQL bd = new BDMySQL();
+    private String valores[] = null;
 }

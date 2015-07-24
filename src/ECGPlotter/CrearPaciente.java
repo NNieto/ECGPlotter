@@ -250,8 +250,8 @@ public class CrearPaciente extends java.awt.Dialog {
 
     private void GuardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarButtonActionPerformed
         // TODO add your handling code here:
-        bd.MySQLConnection(userBD, PassBD, nombreBD);
-        bd.InsertarDatos("usuarios","",NombreField.getText(),ApellidosField.getText(),"","",Integer.parseInt(CedulaField.getText()),CorreoField.getText(),DireccionField.getText(),Integer.parseInt(TelefonoField.getText()),SexoRadioGroup.getSelection().getActionCommand(),AntecedentesArea.getText());
+        bd.MySQLConnection();
+        bd.InsertarDatos("Pacientes","",NombreField.getText(),ApellidosField.getText(),"","",Integer.parseInt(CedulaField.getText()),CorreoField.getText(),DireccionField.getText(),Integer.parseInt(TelefonoField.getText()),SexoRadioGroup.getSelection().getActionCommand(),AntecedentesArea.getText(),"","");
         bd.closeConnection();
         dispose(); 
     }//GEN-LAST:event_GuardarButtonActionPerformed

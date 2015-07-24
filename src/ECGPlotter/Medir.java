@@ -9,9 +9,13 @@ import com.panamahitek.PanamaHitek_Arduino;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -23,11 +27,16 @@ public class Medir extends java.awt.Dialog {
 
     /**
      * Creates new form Medir
+     * @param parent
+     * @param modal
      */
     public Medir(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+       // this.Hilo = new Thread((Runnable) this);
         initComponents();
-        chart = new ChartPanel(osc.crearGrafica(collection));
+        serie1.add(0,0);
+        collection.addSeries(serie1);
+        chart = new ChartPanel(ECGChart);
         ContenedorOsciloscopio.setLayout(new BorderLayout());
         ContenedorOsciloscopio.add(chart, BorderLayout.CENTER);
         try {
@@ -35,6 +44,7 @@ public class Medir extends java.awt.Dialog {
         } catch (Exception ex) {
             Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     /**
@@ -148,15 +158,28 @@ public class Medir extends java.awt.Dialog {
      */
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         setVisible(false);
+        try {
+            arduino.killArduinoConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dispose();
     }//GEN-LAST:event_closeDialog
 
     private void GrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GrabarActionPerformed
         // TODO add your handling code here:
+        index++;
+                //System.out.println(Integer.parseInt(arduino.printMessage())*5/1024);
+                serie1.add(index, 333);
     }//GEN-LAST:event_GrabarActionPerformed
 
     private void GuardarImagenBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarImagenBotonActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            ChartUtilities.saveChartAsPNG(new File("soft3d.png"), ECGChart, 400, 300);
+        } catch (IOException ex) {
+            Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_GuardarImagenBotonActionPerformed
 
     private void GuardarECGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarECGActionPerformed
@@ -180,13 +203,21 @@ public class Medir extends java.awt.Dialog {
     final XYSeries serie1 = new XYSeries("ECG");
     final XYSeriesCollection collection = new XYSeriesCollection();
     PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
+    int index = 0;
+    JFreeChart ECGChart = osc.crearGrafica(collection);
+    Thread Hilo;
     SerialPortEventListener evento = new SerialPortEventListener() {
 
         @Override
         public void serialEvent(SerialPortEvent spe) {
            // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             if(arduino.isMessageAvailable() == true){
-                System.out.println("eee");
+                index++;
+                //System.out.println(Integer.parseInt(arduino.printMessage())*5/1024);
+                serie1.add(index, Integer.parseInt(arduino.printMessage())*5/1024);
+                //ObservacionesArea.setText("" + index + Integer.parseInt(arduino.printMessage())*5/1024);
+                System.out.println("<><><><" + index);
+               // Hilo.start();
             } else {
             }
         }
