@@ -33,6 +33,7 @@ public class ECGPlotter extends javax.swing.JFrame {
         bd.CrearTablaCitas("citas");
         bd.closeConnection();
         initComponents();
+        VistaPrincipalPanel.hide();
     }
 
     /**
@@ -96,6 +97,8 @@ public class ECGPlotter extends javax.swing.JFrame {
         CrearPacienteMenu = new javax.swing.JMenuItem();
         CargarPacienteMenu = new javax.swing.JMenuItem();
         GuardarMenu = new javax.swing.JMenuItem();
+        TodasLasCitasMenu = new javax.swing.JMenu();
+        TodasCitasMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ECGPlotter");
@@ -296,6 +299,18 @@ public class ECGPlotter extends javax.swing.JFrame {
 
         jMenuBar1.add(ArchivoMenu);
 
+        TodasLasCitasMenu.setText("Citas");
+
+        TodasCitasMenu.setText("Todas Las Citas");
+        TodasCitasMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TodasCitasMenuActionPerformed(evt);
+            }
+        });
+        TodasLasCitasMenu.add(TodasCitasMenu);
+
+        jMenuBar1.add(TodasLasCitasMenu);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -318,7 +333,7 @@ public class ECGPlotter extends javax.swing.JFrame {
 
     private void CargarPacienteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarPacienteMenuActionPerformed
         // TODO add your handling code here:
-        CargarPaciente cargarpaciente = new CargarPaciente(this,true);
+        CargarPaciente cargarpaciente = new CargarPaciente(this, true);
         cargarpaciente.setVisible(true);
         CargarPacienteActual(cargarpaciente.ObtenerResultadoBusqueda());
     }//GEN-LAST:event_CargarPacienteMenuActionPerformed
@@ -329,7 +344,7 @@ public class ECGPlotter extends javax.swing.JFrame {
 
     private void CrearPacienteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearPacienteMenuActionPerformed
         // TODO add your handling code here:
-        CrearPaciente cp = new CrearPaciente(this,true);
+        CrearPaciente cp = new CrearPaciente(this, true);
         cp.setVisible(true);
     }//GEN-LAST:event_CrearPacienteMenuActionPerformed
 
@@ -339,74 +354,85 @@ public class ECGPlotter extends javax.swing.JFrame {
 
     private void EnviarCorreoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarCorreoButtonActionPerformed
         // TODO add your handling code here:
-        EnviarCorreoPersonalizado("alejandrobalanta@gmail.com","Breakerkid1",CorreoLabel.getText(),AsuntoCorreoField.getText(),TextoCorreoArea.getText());
+        EnviarCorreoPersonalizado("no.reply.ecgplotter@gmail.com", "ecgplott", CorreoLabel.getText(), AsuntoCorreoField.getText(), TextoCorreoArea.getText());
+        AsuntoCorreoField.setText("");
+        TextoCorreoArea.setText("");
     }//GEN-LAST:event_EnviarCorreoButtonActionPerformed
 
     private void ProgramarCitaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgramarCitaButtonActionPerformed
         // TODO add your handling code here:
+        bd.MySQLConnection();
+        bd.GuardarCitas("citas", TipoProgramarCitaField.getText(), FechaProgramarCitaField.getText(), HoraProgramarCitaField.getText(), LugarProgramarCitaField.getText(), Integer.parseInt("" + 1), Integer.parseInt("" + PacienteActual[0]), "", "Pendiente");
+        bd.closeConnection();
+        ProximaCitaLabel.setText(FechaProgramarCitaField.getText());
+        TipoProgramarCitaField.setText("");
+        FechaProgramarCitaField.setText("");
+        HoraProgramarCitaField.setText("");
+        LugarProgramarCitaField.setText("");
     }//GEN-LAST:event_ProgramarCitaButtonActionPerformed
 
     private void MedirECGButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedirECGButtonActionPerformed
         // TODO add your handling code here:
-        Medir me = new Medir(this,true);
+        Medir me = new Medir(this, true);
         me.setVisible(true);
     }//GEN-LAST:event_MedirECGButtonActionPerformed
 
     private void TipoProgramarCitaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoProgramarCitaFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TipoProgramarCitaFieldActionPerformed
-    
-    private void CargarPacienteActual(String[] usuario){
-        NombreLabel.setText(usuario[1]);
-        ApellidosLabel.setText(usuario[2]);
-        TelefonoLabel.setText(usuario[8]);
-        SexoLabel.setText(usuario[9]);
-        CorreoLabel.setText(usuario[6]);
-        DireccionLabel.setText(usuario[7]);
-        ProximaCitaLabel.setText(usuario[11]);
-        UltimaCitaLabel.setText(usuario[12]);
-        AntecedentesArea.setText(usuario[10]);
-        UsuarioActual = usuario;
+
+    private void TodasCitasMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TodasCitasMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TodasCitasMenuActionPerformed
+
+    private void CargarPacienteActual(String[] paciente) {
+        if (paciente != null) {
+            NombreLabel.setText(paciente[1]);
+            ApellidosLabel.setText(paciente[2]);
+            TelefonoLabel.setText(paciente[8]);
+            SexoLabel.setText(paciente[9]);
+            CorreoLabel.setText(paciente[6]);
+            DireccionLabel.setText(paciente[7]);
+            ProximaCitaLabel.setText(paciente[11]);
+            UltimaCitaLabel.setText(paciente[12]);
+            AntecedentesArea.setText(paciente[10]);
+            PacienteActual = paciente;
+            VistaPrincipalPanel.setVisible(true);
+        }
     }
-    private void EnviarCorreoPersonalizado(String Username, String pass, String To, String Subject, String Msg){
-        
 
-
+    private void EnviarCorreoPersonalizado(String Username, String pass, String To, String Subject, String Msg) {
+        Session session;
         Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
- 
-         Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(Username, pass);
-                    }
-                });
- 
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.port", "587");
+
+        session = Session.getDefaultInstance(props);
+        session.setDebug(true);
+
         try {
- 
+
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(Username));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(To));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(To));
             message.setSubject(Subject);
-            message.setText(Msg);
- 
-            Transport.send(message);
+            message.setContent("<!DOCTYPE html> <html><head> <title></title> </head> <body style='font-family: fantasy;'> <div style='width: 438px; height: 22px; background-color: cornflowerblue; color: white; text-align: center;   '>ECGPlotter</div> <div style='width: 424px; height: 300px; position: absolute; left: 14px; border: 1px solid; text-align: justify; padding: 10px;'>"+ Msg + "</div> <label style='position: absolute; top: 338px; left: 13px; font-size: 10px; '>ECGPlotter es una aplcación de medida para la señal ECG y administracion de los resultados</label> </body> </html>","text/html");
+
+            Transport t = session.getTransport("smtp");
+            t.connect(Username,pass);
+            t.sendMessage(message,message.getAllRecipients());
             JOptionPane.showMessageDialog(this, "Su mensaje ha sido enviado");
- 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            t.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error" + e);
         }
-    
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-       new ECGPlotter().setVisible(true);
+
+    public void setActualUser(String[] usuario){
+        UsuarioActual = usuario;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -436,6 +462,8 @@ public class ECGPlotter extends javax.swing.JFrame {
     private javax.swing.JLabel TelefonoLabel;
     private javax.swing.JTextArea TextoCorreoArea;
     private javax.swing.JFormattedTextField TipoProgramarCitaField;
+    private javax.swing.JMenuItem TodasCitasMenu;
+    private javax.swing.JMenu TodasLasCitasMenu;
     private javax.swing.JLabel UltimaCitaLabel;
     private javax.swing.JTabbedPane VistaPrincipalPanel;
     private javax.swing.JLabel jLabel1;
@@ -464,5 +492,6 @@ public class ECGPlotter extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
     BDMySQL bd = new BDMySQL();
+    private String PacienteActual[] = null;
     private String UsuarioActual[] = null;
 }

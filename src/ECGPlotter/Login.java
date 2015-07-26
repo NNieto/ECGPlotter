@@ -5,6 +5,8 @@
  */
 package ECGPlotter;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Alejandro
@@ -69,11 +71,13 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ContraseñaLoginField, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(69, 69, 69)
-                            .addComponent(jLabel2)))
+                            .addComponent(jLabel2))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(12, 12, 12)
+                            .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(57, 57, 57)
                         .addComponent(jLabel3)))
@@ -106,11 +110,35 @@ public class Login extends javax.swing.JFrame {
 
     private void IngresarLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresarLoginButtonActionPerformed
         // TODO add your handling code here:
-        dispose();
+        if (!"".equals(CorreoLoginField.getText()) && !"".equals(new String(ContraseñaLoginField.getPassword()))) {
+            
+            String logger[] = null;
+            bd.MySQLConnection();
+            logger = bd.Login("usuarios", CorreoLoginField.getText(), new String(ContraseñaLoginField.getPassword()));
+            bd.closeConnection();
+            if (logger[0] == null) {
+                JOptionPane.showMessageDialog(this, "Correo o contraseña incorrecto");
+            } else {
+                dispose();
+                JOptionPane.showMessageDialog(this, "¡Bienvenido!");
+                ECGPlotter ecg = new ECGPlotter();
+                ecg.setVisible(true);
+                ecg.setActualUser(logger);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene todos los campos por favor");
+        }
     }//GEN-LAST:event_IngresarLoginButtonActionPerformed
 
-    public String getLogin(){
+    public String getLogin() {
         return "IN";
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        new Login().setVisible(true);
     }
     /**
      * @param args the command line arguments
@@ -126,4 +154,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    BDMySQL bd = new BDMySQL();
 }

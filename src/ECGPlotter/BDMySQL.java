@@ -30,7 +30,7 @@ public class BDMySQL {
             System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -39,7 +39,7 @@ public class BDMySQL {
         try {
             Conexion.close();
             System.out.println("Se ha finalizado la conexión con el servidor");
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -51,49 +51,49 @@ public class BDMySQL {
             st.executeUpdate(Query);
             MySQLConnection();
             System.out.println("Se ha creado la base de datos " + nombre + " de forma exitosa");
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
  
     public void CrearTablaUsuarios(String nombre) {
         try {
-            String Query = "CREATE TABLE " + nombre + ""
+            String Query = "CREATE TABLE IF NOT EXISTS " + nombre + ""
                     + "(user_id int NOT NULL AUTO_INCREMENT,Nombre VARCHAR(50), Apellido VARCHAR(50),"
                     + " profesion VARCHAR(300), correo VARCHAR(300),contraseña VARCHAR(100),"
                     + " PRIMARY KEY (user_id))";
             System.out.println("Se ha creado la base de tabla " + nombre + " de forma exitosa");
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void CrearTablaCitas(String nombre) {
         try {
-            String Query = "CREATE TABLE " + nombre + ""
-                    + "(cita_id int NOT NULL AUTO_INCREMENT,Tipo VARCHAR(50), Fecha DATE,"
-                    + " Hora TIME, Lugar VARCHAR(100),user_id int, paciente_id int"
-                    + ",PRIMARY KEY (cita_id))";
+            String Query = "CREATE TABLE IF NOT EXISTS  " + nombre + ""
+                    + "(cita_id int NOT NULL AUTO_INCREMENT,Tipo VARCHAR(50), Fecha VARCHAR(100),"
+                    + " Hora VARCHAR(100), Lugar VARCHAR(100),user_id int, paciente_id int"
+                    + ",observaciones_cita VARCHAR(200),estado_cita VARCHAR(100),PRIMARY KEY (cita_id))";
             System.out.println("Se ha creado la base de tabla " + nombre + " de forma exitosa");
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void CrearTablaPacientes(String nombre) {
         try {
-            String Query = "CREATE TABLE " + nombre + ""
+            String Query = "CREATE TABLE IF NOT EXISTS  " + nombre + ""
                     + "(paciente_id int NOT NULL AUTO_INCREMENT,Nombre VARCHAR(50), Apellido VARCHAR(50),"
                     + " registro_ecg VARCHAR(300), observaciones VARCHAR(300),cedula int,correo VARCHAR(200)"
                     + ",direccion VARCHAR(100),telefono int, sexo VARCHAR(1),antecedentes VARCHAR(500),proxima_cita VARCHAR(100), ultima_cita VARCHAR(100),PRIMARY KEY (paciente_id))";
             System.out.println("Se ha creado la base de tabla " + nombre + " de forma exitosa");
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(BDMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -117,11 +117,57 @@ public class BDMySQL {
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
             System.out.println("Datos almacenados de forma exitosa");
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println("Error en el almacenamiento de datos");
         }
     }
  
+    public void GuardarCitas(String nombre_tabla, String Tipo, String Fecha, String Hora, String Lugar, int user_id, int paciente_id, String observaciones_cita,String estado_cita){
+    try {
+            String Query = "INSERT INTO " + nombre_tabla + "(Tipo,Fecha,Hora,Lugar ,user_id,paciente_id,observaciones_cita,estado_cita) VALUES("
+                    // + "\"" + _id + "\", "
+                    + "\"" + Tipo + "\", "
+                    + "\"" + Fecha + "\", "
+                    + "\"" + Hora + "\", "
+                    + "\"" + Lugar + "\", "
+                    + "\"" + user_id + "\", "
+                    + "\"" + paciente_id + "\", "
+                    + "\"" + observaciones_cita + "\", "
+                    + "\"" + estado_cita + "\")";
+            Statement st = Conexion.createStatement();
+            st.executeUpdate(Query);
+            System.out.println("Datos almacenados de forma exitosa");
+        } catch (Exception ex) {
+            System.out.println("Error en el almacenamiento de datos");
+        }
+    
+    }
+    
+    public String[] Login(String nombre_tabla, String correo, String password){
+        String[] valores = new String[5]; 
+        try {
+            String Query = "SELECT * FROM " + nombre_tabla + " WHERE correo = \"" + correo + "\" AND contraseña = \"" + password + "\"";
+            
+            Statement st = Conexion.createStatement();
+            java.sql.ResultSet resultSet;
+            resultSet = st.executeQuery(Query);
+            while (resultSet.next()) {
+               valores[0] = "" + resultSet.getString("user_id");
+               valores[1] = resultSet.getString("Nombre");
+               valores[2] = resultSet.getString("Apellido");
+               valores[3] = resultSet.getString("profesion");
+               valores[4] = resultSet.getString("correo");
+   
+            }
+            
+            
+ 
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error en la adquisición de datos" +ex);
+        }
+        
+        return valores;
+    }
     public String[] ObtenerPacientePorCedula(String nombre_tabla, int cedula) {
        String[] valores = new String[13]; 
         try {
@@ -149,7 +195,7 @@ public class BDMySQL {
             
             
  
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error en la adquisición de datos" +ex);
         }
         
@@ -174,7 +220,7 @@ public class BDMySQL {
             
             
  
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error en la adquisición de datos" +ex);
         }
         
@@ -187,7 +233,7 @@ public class BDMySQL {
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
  
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
         }
