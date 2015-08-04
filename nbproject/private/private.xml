@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Norman/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/Login.java</file>
-            <file>file:/C:/Users/Norman/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/BDMySQL.java</file>
-            <file>file:/C:/Users/Norman/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/ECGPlotter.java</file>
-            <file>file:/C:/Users/Norman/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/RegistrarCita.java</file>
-            <file>file:/C:/Users/Norman/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/CitasProgramadas.java</file>
-            <file>file:/C:/Users/Norman/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/Medir.java</file>
+            <file>file:/C:/Users/Alejandro/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/Osciloscopio.java</file>
+            <file>file:/C:/Users/Alejandro/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/Medir.java</file>
+            <file>file:/C:/Users/Alejandro/Documents/GitHub/Dev-Java/ECGPlotter/src/ECGPlotter/BDMySQL.java</file>
         </group>
     </open-files>
 </project-private>

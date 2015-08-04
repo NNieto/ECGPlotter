@@ -69,7 +69,7 @@ public class Osciloscopio {
 	// configuramos el eje X de la gráfica (se muestran números enteros y de uno en uno)
 	private void configurarDomainAxis (NumberAxis domainAxis) {
 		domainAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		//domainAxis.setTickUnit(new NumberTickUnit(50));
+		domainAxis.setTickUnit(new NumberTickUnit(10));
 	}
 	
 	// configuramos el eje y de la gráfica (números enteros de dos en dos y rango entre 120 y 135)
