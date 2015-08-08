@@ -83,11 +83,13 @@ public class Medir extends java.awt.Dialog {
         jScrollPane1.setViewportView(ObservacionesArea);
 
         Jlabel11111111.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        Jlabel11111111.setForeground(new java.awt.Color(0, 102, 255));
+        Jlabel11111111.setForeground(new java.awt.Color(25, 136, 25));
         Jlabel11111111.setText("Frecuencia (Hz):");
         Jlabel11111111.setToolTipText("");
 
+        Grabar.setBackground(new java.awt.Color(25, 136, 25));
         Grabar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Grabar.setForeground(new java.awt.Color(238, 238, 238));
         Grabar.setText("Grabar");
         Grabar.setToolTipText("");
         Grabar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +98,9 @@ public class Medir extends java.awt.Dialog {
             }
         });
 
+        GuardarImagenBoton.setBackground(new java.awt.Color(25, 136, 25));
         GuardarImagenBoton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        GuardarImagenBoton.setForeground(new java.awt.Color(238, 238, 238));
         GuardarImagenBoton.setText("Guardar Imagen");
         GuardarImagenBoton.setToolTipText("");
         GuardarImagenBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -105,7 +109,9 @@ public class Medir extends java.awt.Dialog {
             }
         });
 
+        GuardarECG.setBackground(new java.awt.Color(25, 136, 25));
         GuardarECG.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        GuardarECG.setForeground(new java.awt.Color(238, 238, 238));
         GuardarECG.setText("Guardar Registro ECG");
         GuardarECG.setToolTipText("");
         GuardarECG.addActionListener(new java.awt.event.ActionListener() {
@@ -115,12 +121,12 @@ public class Medir extends java.awt.Dialog {
         });
 
         ObservacionesLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ObservacionesLabel1.setForeground(new java.awt.Color(0, 102, 255));
+        ObservacionesLabel1.setForeground(new java.awt.Color(25, 136, 25));
         ObservacionesLabel1.setText("Observaciones");
         ObservacionesLabel1.setToolTipText("");
 
         FrecuenciaLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        FrecuenciaLabel.setForeground(new java.awt.Color(0, 102, 255));
+        FrecuenciaLabel.setForeground(new java.awt.Color(25, 136, 25));
         FrecuenciaLabel.setText("Frecuencia");
         FrecuenciaLabel.setToolTipText("");
 
@@ -128,26 +134,28 @@ public class Medir extends java.awt.Dialog {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 904, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(ObservacionesLabel1)
-                .addGap(126, 126, 126)
-                .addComponent(Jlabel11111111)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FrecuenciaLabel))
+                .addComponent(jScrollPane1)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 904, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(ObservacionesLabel1)
+                        .addGap(126, 126, 126)
+                        .addComponent(Jlabel11111111)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FrecuenciaLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
-                        .addComponent(GuardarImagenBoton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(39, 39, 39)
-                .addComponent(GuardarECG, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(GuardarImagenBoton)
+                        .addGap(39, 39, 39)
+                        .addComponent(GuardarECG, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +175,8 @@ public class Medir extends java.awt.Dialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Grabar)
                     .addComponent(GuardarImagenBoton)
-                    .addComponent(GuardarECG)))
+                    .addComponent(GuardarECG))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

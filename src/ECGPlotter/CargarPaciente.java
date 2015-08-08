@@ -5,6 +5,7 @@
  */
 package ECGPlotter;
 
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,7 +45,14 @@ public class CargarPaciente extends java.awt.Dialog {
         BuscarLabel.setText("Cédula");
 
         BuscarField.setToolTipText("Cedula");
+        BuscarField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                BuscarFieldKeyTyped(evt);
+            }
+        });
 
+        Buscar.setBackground(new java.awt.Color(25, 136, 25));
+        Buscar.setForeground(new java.awt.Color(238, 238, 238));
         Buscar.setText("Buscar");
         Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +111,13 @@ public class CargarPaciente extends java.awt.Dialog {
         }
         System.out.println(valores[2]);
     }//GEN-LAST:event_BuscarActionPerformed
+
+    private void BuscarFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BuscarFieldKeyTyped
+        // TODO add your handling code here:
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){
+            Buscar.doClick();
+        }
+    }//GEN-LAST:event_BuscarFieldKeyTyped
     
     public String[] ObtenerResultadoBusqueda(){
         return valores;

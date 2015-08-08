@@ -6,6 +6,8 @@
 package ECGPlotter;
 
 import static com.oracle.jrockit.jfr.Transition.To;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.net.PasswordAuthentication;
 import java.util.Properties;
 import javax.mail.Message;
@@ -15,6 +17,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.security.auth.Subject;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,7 +36,18 @@ public class ECGPlotter extends javax.swing.JFrame {
         bd.CrearTablaCitas("citas");
         bd.closeConnection();
         initComponents();
+        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png"));
+        setIconImage(icon);
         VistaPrincipalPanel.hide();
+        TodasLasCitasMenu.hide();
+        
+        ImageIcon icono = new javax.swing.ImageIcon(getClass().getResource("cargando.gif"));
+        Image imagen = icono.getImage();
+        ImageIcon iconoEscalado = new ImageIcon (imagen.getScaledInstance(240,80,Image.SCALE_SMOOTH));
+        //Loading.setIcon(iconoEscalado);
+        MedirECGButton.setOpaque(false);
+        MedirECGButton.setContentAreaFilled(false);
+        MedirECGButton.setBorderPainted(false);
     }
 
     /**
@@ -102,6 +116,7 @@ public class ECGPlotter extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ECGPlotter");
+        setIconImage(getIconImage());
         setIconImages(null);
         setLocationByPlatform(true);
         setResizable(false);
@@ -154,7 +169,10 @@ public class ECGPlotter extends javax.swing.JFrame {
         jLabel4.setText("Hora:");
         DatosPacientePanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 30, 20));
 
+        ProgramarCitaButton.setBackground(new java.awt.Color(25, 136, 25));
+        ProgramarCitaButton.setForeground(new java.awt.Color(238, 238, 238));
         ProgramarCitaButton.setText("Programar Cita");
+        ProgramarCitaButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ProgramarCitaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ProgramarCitaButtonActionPerformed(evt);
@@ -181,7 +199,10 @@ public class ECGPlotter extends javax.swing.JFrame {
 
         DatosPacientePanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, 230, 140));
 
+        EnviarCorreoButton.setBackground(new java.awt.Color(25, 136, 25));
+        EnviarCorreoButton.setForeground(new java.awt.Color(238, 238, 238));
         EnviarCorreoButton.setText("Enviar");
+        EnviarCorreoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         EnviarCorreoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EnviarCorreoButtonActionPerformed(evt);
@@ -189,13 +210,16 @@ public class ECGPlotter extends javax.swing.JFrame {
         });
         DatosPacientePanel.add(EnviarCorreoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 240, -1, -1));
 
-        MedirECGButton.setText("Medir ECG");
+        MedirECGButton.setBackground(new java.awt.Color(25, 136, 25));
+        MedirECGButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ECGPlotter/logo.png"))); // NOI18N
+        MedirECGButton.setBorder(null);
+        MedirECGButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         MedirECGButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MedirECGButtonActionPerformed(evt);
             }
         });
-        DatosPacientePanel.add(MedirECGButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 110, 50));
+        DatosPacientePanel.add(MedirECGButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 60, 60));
 
         jLabel19.setText("Lugar");
         DatosPacientePanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
@@ -317,13 +341,13 @@ public class ECGPlotter extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(VistaPrincipalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(VistaPrincipalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -377,13 +401,19 @@ public class ECGPlotter extends javax.swing.JFrame {
         me.setVisible(true);
     }//GEN-LAST:event_MedirECGButtonActionPerformed
 
+    private void TodasCitasMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TodasCitasMenuActionPerformed
+        // TODO add your handling code here:
+        CitasProgramadas cp = new CitasProgramadas(this,true);
+        bd.MySQLConnection();
+        cp.AgregarCitas(bd.ObtenerCitasPorPaciente(Integer.parseInt(PacienteActual[0]),cp.ObtenerTabla()));
+        bd.closeConnection();
+        cp.setVisible(true);
+        
+    }//GEN-LAST:event_TodasCitasMenuActionPerformed
+
     private void TipoProgramarCitaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoProgramarCitaFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TipoProgramarCitaFieldActionPerformed
-
-    private void TodasCitasMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TodasCitasMenuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TodasCitasMenuActionPerformed
 
     private void CargarPacienteActual(String[] paciente) {
         if (paciente != null) {
@@ -396,12 +426,16 @@ public class ECGPlotter extends javax.swing.JFrame {
             ProximaCitaLabel.setText(paciente[11]);
             UltimaCitaLabel.setText(paciente[12]);
             AntecedentesArea.setText(paciente[10]);
+            
             PacienteActual = paciente;
             VistaPrincipalPanel.setVisible(true);
+            TodasLasCitasMenu.setVisible(true);
         }
     }
 
     private void EnviarCorreoPersonalizado(String Username, String pass, String To, String Subject, String Msg) {
+        
+       
         Session session;
         Properties props = new Properties();
         props.setProperty("mail.smtp.auth", "true");
@@ -413,7 +447,6 @@ public class ECGPlotter extends javax.swing.JFrame {
         session.setDebug(true);
 
         try {
-
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(Username));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(To));

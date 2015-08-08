@@ -75,6 +75,8 @@ public class CrearPaciente extends java.awt.Dialog {
             }
         });
 
+        GuardarButton.setBackground(new java.awt.Color(25, 136, 25));
+        GuardarButton.setForeground(new java.awt.Color(238, 238, 238));
         GuardarButton.setText("Guardar");
         GuardarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,6 +84,8 @@ public class CrearPaciente extends java.awt.Dialog {
             }
         });
 
+        CancelarButton.setBackground(new java.awt.Color(25, 136, 25));
+        CancelarButton.setForeground(new java.awt.Color(238, 238, 238));
         CancelarButton.setText("Cancelar");
         CancelarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

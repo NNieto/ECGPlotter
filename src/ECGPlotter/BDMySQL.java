@@ -13,10 +13,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
  
 public class BDMySQL {
  
@@ -136,6 +139,8 @@ public class BDMySQL {
                     + "\"" + estado_cita + "\")";
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
+            Query = "UPDATE pacientes SET proxima_cita = '" + Fecha + "' WHERE paciente id = '" + paciente_id + "'";
+            st.executeUpdate(Query);
             System.out.println("Datos almacenados de forma exitosa");
         } catch (Exception ex) {
             System.out.println("Error en el almacenamiento de datos");
@@ -200,6 +205,32 @@ public class BDMySQL {
         }
         
         return valores;
+    }
+
+    public DefaultTableModel ObtenerCitasPorPaciente(int paciente_id, JTable jtable1) {
+       String[] valores = new String[7];
+       ArrayList lista = new ArrayList();
+       DefaultTableModel modelo = (DefaultTableModel) jtable1.getModel();
+        try {
+            String Query = "SELECT cita_id,Tipo,Fecha,Hora,Lugar,observaciones_cita,estado_cita FROM " + "citas" + " WHERE paciente_id = \"" + paciente_id + "\"";
+            Statement st = Conexion.createStatement();
+            java.sql.ResultSet resultSet;
+            resultSet = st.executeQuery(Query);
+            
+            while (resultSet.next()) {
+               Object [] fila = new Object[7];
+               for (int i=0;i<7;i++) fila[i] = resultSet.getObject(i+1);
+               System.out.println(fila[6]);
+               modelo.addRow(fila);
+  
+            }
+            
+            
+ 
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error en la adquisición de datos" +ex);
+        }
+        return modelo;
     }
 
     public Vector ListarUsuarios() {
