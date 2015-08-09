@@ -21,6 +21,7 @@ public class CitasProgramadas extends java.awt.Dialog {
      */
     public CitasProgramadas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
         initComponents();
     }
 

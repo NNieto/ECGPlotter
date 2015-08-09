@@ -16,6 +16,7 @@ public class CrearPaciente extends java.awt.Dialog {
      */
     public CrearPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
         initComponents();
         Masculino.setActionCommand("M");
         Femenino.setActionCommand("F");

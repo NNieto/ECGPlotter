@@ -28,6 +28,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png"));
         
+        setLocationRelativeTo(null);
         setIconImage(icon);
         ImageIcon icono = new javax.swing.ImageIcon(getClass().getResource("LogoAplicacionT.png"));
         Image imagen = icono.getImage();

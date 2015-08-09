@@ -19,6 +19,7 @@ public class CargarPaciente extends java.awt.Dialog {
      */
     public CargarPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
         initComponents();
         
     }

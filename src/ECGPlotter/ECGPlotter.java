@@ -40,6 +40,7 @@ public class ECGPlotter extends javax.swing.JFrame {
         setIconImage(icon);
         VistaPrincipalPanel.hide();
         TodasLasCitasMenu.hide();
+        setLocationRelativeTo(null);
         
         ImageIcon icono = new javax.swing.ImageIcon(getClass().getResource("cargando.gif"));
         Image imagen = icono.getImage();

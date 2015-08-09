@@ -32,6 +32,7 @@ public class Medir extends java.awt.Dialog {
      */
     public Medir(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
        // this.Hilo = new Thread((Runnable) this);
         initComponents();
         serie1.add(0,0);
