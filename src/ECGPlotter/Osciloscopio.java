@@ -29,7 +29,7 @@ public class Osciloscopio {
  
 	private static Color COLOR_SERIE_2 = new Color(28, 84, 140);
  
-	private static Color COLOR_RECUADROS_GRAFICA = new Color(31, 87, 4);
+	private static Color COLOR_RECUADROS_GRAFICA = new Color(255, 255, 255);
  
 	private static Color COLOR_FONDO_GRAFICA = Color.white;
  
@@ -75,8 +75,8 @@ public class Osciloscopio {
 	// configuramos el eje y de la gráfica (números enteros de dos en dos y rango entre 120 y 135)
 	private void configurarRangeAxis (NumberAxis rangeAxis) {
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		rangeAxis.setTickUnit(new NumberTickUnit(10));
-		rangeAxis.setRange(-50, 50);
+		rangeAxis.setTickUnit(new NumberTickUnit(1));
+		rangeAxis.setRange(-5, 5);
 	}
 	
 	// configuramos las líneas de las series (añadimos un círculo en los puntos y asignamos el color de cada serie)

@@ -1,0 +1,32 @@
+* Diseñar una etapa de amplificación y digitalización para la medición de la señal de ECG.
+- Lectura sobre la teoria de el amplificador operacional de instrumentacion, senal de ECG y muestreo digital.
+- Diseno y pruebas de el amplificador de instrumentacion sobre senales previamente deifinidas.
+- Union de etapa de amplificacion con los electrodos y verificaicon de la senal.
+- Correcion de errores y definicion de medidas de precaucion a la hora de conectar los electrodos.
+- Pruebas y anotacion de resultados.
+- Diseno de etapa de muestreo digital con arduino MEGA.
+- conexion de prueba y toma de medidas de precaucion a la hora de conectar
+- Medicion de la senal muestreada.
+
+* Diseñar un procesador digital de señal para manipular la señal de ECG.
+- Lectura sobre teoria de Filtros digitales (Ecuaciones en diferencias, FFT, etc)
+- Luego de deicidir la mejor opcion, lectura teorica sobre la programacion en VHDL.
+- Listar los recursos disponibles para la programacion de ste filtro.
+- Diseno de el filtro digital en una FGPA usando VHDL
+- Pruebas y simulaciones de el filtro en Quartus II
+- Conexion con la etapa de amplificacion y obtencion de la senal
+- Pruebas y correccion de errores
+
+* Implementar una etapa de visualización para un diagnóstico sobre la señal de ECG procesada.
+- Lectura y/o refuerzo teorico en JAVA.
+- Lectura sobre la teoria de ECG para un diagnositco mas acertado.
+- Diseno de una GUI para la visualizacion de los datos en un PC.
+- Implementacion de la GUI usando NetBeans IDE.
+- Pruebas sobre la interfaz de usuario y arreglo de 'Bugs'
+
+* Diseño de una base de datos para guardar un historial sobre pacientes y diagnósticos con las mediciones hechas.
+- Lectura y/o refuerzo teorico en SQL.
+- Recopilacion de la informacion necesaria que se debe guardar.
+- Diseno de la base de datos en MySQL.
+- Conexion con la GUI hecha previamente en Java.
+- Pruebas y arreglo de 'Bugs'

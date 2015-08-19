@@ -5,130 +5,527 @@
  */
 package ECGPlotter;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import static com.oracle.jrockit.jfr.Transition.To;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.PasswordAuthentication;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.security.auth.Subject;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Norman
+ * @author Alejandro
  */
-public class ECGPlotter implements ActionListener {
+public class ECGPlotter extends javax.swing.JFrame {
 
-    // Declaracion de Variables
-    BDMySQL bd = new BDMySQL();
-    String userBD = "root", PassBD = "root", nombreBD = "ECGPlotter";
-    JFrame mainFrame = new JFrame();
-    Container contentPane = mainFrame.getContentPane();
-    JPanel mainPanel = new JPanel();
-    ChartPanel chart;
-    JMenuBar mainMenu = new JMenuBar();
-    JMenu archivo = new JMenu("Archivo");
-    JMenuItem pacienteNuevo = new JMenuItem("Paciente Nuevo");
-    JMenuItem cargarPaciente = new JMenuItem("Cargar Paciente");
-    JMenuItem guardar = new JMenuItem("Guardar");
-    JLabel nombrePaciente = new JLabel("Nombre Paciente");
-    JLabel observaciones = new JLabel("Observaciones");
-    JTextArea notas = new JTextArea();
-    JScrollPane scrollNotas = new JScrollPane(notas);
-    Osciloscopio osc = new Osciloscopio();
-    final XYSeries serie1 = new XYSeries("Fernando Alonso");
-    final XYSeries serie2 = new XYSeries("Jaime Alguersuari");
-    final XYSeriesCollection collection = new XYSeriesCollection();
-
-    public ECGPlotter(String titulo) {
-        bd.MySQLConnection(userBD, PassBD, nombreBD);
-        bd.CrearTabla("usuarios");
+    /**
+     * Creates new form ECGPlotter
+     */
+    public ECGPlotter() {
+        bd.MySQLConnection();
+        bd.CrearTablaUsuarios("usuarios");
+        bd.CrearTablaPacientes("pacientes");
+        bd.CrearTablaCitas("citas");
         bd.closeConnection();
-        serie1.add(1, 131.78);
-        serie1.add(2, 129.95);
-        serie1.add(3, 128.16);
-        serie1.add(4, 125.91);
-        serie1.add(5, 130.44);
-        serie2.add(1, 133.16);
-        serie2.add(2, 132.32);
-        serie2.add(3, 129.86);
-        serie2.add(4, 128.02);
-        serie2.add(5, 132.45);
-        collection.addSeries(serie1);
-        collection.addSeries(serie2);
-        // Set properties 
-        mainFrame.setTitle(titulo);
-        archivo.add(pacienteNuevo);
-        archivo.add(cargarPaciente);
-        archivo.add(guardar);
-        mainMenu.add(archivo);
-        mainFrame.setJMenuBar(mainMenu);
-        //    osc.setBackground(Color.black);
-        // osc.setBorder(BorderFactory.createLoweredBevelBorder());
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(800, 600);
-        guardar.setBounds(300, 250, 100, 30);
-        nombrePaciente.setBounds(150, 60, 100, 20);
-        mainPanel.setBounds(140, 80, 450, 200);
-        observaciones.setBounds(150, 300, 100, 20);
-        scrollNotas.setBounds(140, 320, 450, 100);
-        cargarPaciente.addActionListener(this);
-        pacienteNuevo.addActionListener(this);
-        guardar.addActionListener(this);
-        chart = new ChartPanel(osc.crearGrafica(collection));
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(chart, BorderLayout.NORTH);
-        // Añadiendo componentes al contenedor
-        contentPane.setLayout(null);
-        contentPane.add(nombrePaciente);
-        contentPane.add(mainPanel);
-        contentPane.add(observaciones);
-        contentPane.add(scrollNotas);
-        //final JFreeChart grafica = osc.crearGrafica(collection);
-        //  osc.crearGrafica(collection);
-        mainFrame.setVisible(true);
+        initComponents();
+        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("logo.png"));
+        setIconImage(icon);
+        VistaPrincipalPanel.hide();
+        TodasLasCitasMenu.hide();
+        setLocationRelativeTo(null);
+        
+        ImageIcon icono = new javax.swing.ImageIcon(getClass().getResource("cargando.gif"));
+        Image imagen = icono.getImage();
+        ImageIcon iconoEscalado = new ImageIcon (imagen.getScaledInstance(240,80,Image.SCALE_SMOOTH));
+        //Loading.setIcon(iconoEscalado);
+        MedirECGButton.setOpaque(false);
+        MedirECGButton.setContentAreaFilled(false);
+        MedirECGButton.setBorderPainted(false);
     }
 
-    public static void main(String[] args) {
-        ECGPlotter main = new ECGPlotter("ECG Plotter");
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
+        VistaPrincipalPanel = new javax.swing.JTabbedPane();
+        DatosPacientePanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        NombreLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        ApellidosLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        TelefonoLabel = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        SexoLabel = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        CorreoLabel = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        DireccionLabel = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        ProximaCitaLabel = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        UltimaCitaLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        FechaProgramarCitaField = new javax.swing.JFormattedTextField();
+        HoraProgramarCitaField = new javax.swing.JFormattedTextField();
+        jLabel4 = new javax.swing.JLabel();
+        ProgramarCitaButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        AsuntoCorreoField = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextoCorreoArea = new javax.swing.JTextArea();
+        EnviarCorreoButton = new javax.swing.JButton();
+        MedirECGButton = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        TipoProgramarCitaField = new javax.swing.JFormattedTextField();
+        LugarProgramarCitaField = new javax.swing.JFormattedTextField();
+        RegistroECGPanel = new javax.swing.JPanel();
+        GraficaRealPanel = new javax.swing.JPanel();
+        FotoECGPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        AntecedentesArea = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ObservacionesArea = new javax.swing.JTextArea();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        ArchivoMenu = new javax.swing.JMenu();
+        CrearPacienteMenu = new javax.swing.JMenuItem();
+        CargarPacienteMenu = new javax.swing.JMenuItem();
+        GuardarMenu = new javax.swing.JMenuItem();
+        TodasLasCitasMenu = new javax.swing.JMenu();
+        TodasCitasMenu = new javax.swing.JMenuItem();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ECGPlotter");
+        setIconImage(getIconImage());
+        setIconImages(null);
+        setLocationByPlatform(true);
+        setResizable(false);
+
+        DatosPacientePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("Nombre:");
+        DatosPacientePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
+        DatosPacientePanel.add(NombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 150, -1));
+
+        jLabel3.setText("Apellidos:");
+        DatosPacientePanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        DatosPacientePanel.add(ApellidosLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 160, -1));
+
+        jLabel5.setText("Telefono:");
+        DatosPacientePanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+        DatosPacientePanel.add(TelefonoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 140, -1));
+
+        jLabel7.setText("Sexo:");
+        DatosPacientePanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        DatosPacientePanel.add(SexoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 150, -1));
+
+        jLabel9.setText("Correo:");
+        DatosPacientePanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+        DatosPacientePanel.add(CorreoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 180, -1));
+
+        jLabel11.setText("Direccion:");
+        DatosPacientePanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        DatosPacientePanel.add(DireccionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 150, -1));
+
+        jLabel13.setText("Proxima cita:");
+        DatosPacientePanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 291, -1, -1));
+        DatosPacientePanel.add(ProximaCitaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 291, 140, -1));
+
+        jLabel15.setText("Ultima cita:");
+        DatosPacientePanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 305, -1, -1));
+        DatosPacientePanel.add(UltimaCitaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 305, 150, -1));
+
+        jLabel2.setText("Fecha:");
+        DatosPacientePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 40, 20));
+
+        FechaProgramarCitaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FechaProgramarCitaFieldActionPerformed(evt);
+            }
+        });
+        DatosPacientePanel.add(FechaProgramarCitaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 120, -1));
+        DatosPacientePanel.add(HoraProgramarCitaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 170, 120, -1));
+
+        jLabel4.setText("Hora:");
+        DatosPacientePanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 30, 20));
+
+        ProgramarCitaButton.setBackground(new java.awt.Color(25, 136, 25));
+        ProgramarCitaButton.setForeground(new java.awt.Color(238, 238, 238));
+        ProgramarCitaButton.setText("Programar Cita");
+        ProgramarCitaButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ProgramarCitaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProgramarCitaButtonActionPerformed(evt);
+            }
+        });
+        DatosPacientePanel.add(ProgramarCitaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 220, -1, -1));
+
+        jLabel6.setText("Programar Cita");
+        DatosPacientePanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
+
+        jLabel8.setText("Enviar Correo Personalizado");
+        DatosPacientePanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
+        DatosPacientePanel.add(AsuntoCorreoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 230, -1));
+
+        jLabel10.setText("Asunto:");
+        DatosPacientePanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 50, 20));
+
+        jLabel12.setText("Correo");
+        DatosPacientePanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 90, -1, -1));
+
+        TextoCorreoArea.setColumns(20);
+        TextoCorreoArea.setRows(5);
+        jScrollPane1.setViewportView(TextoCorreoArea);
+
+        DatosPacientePanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, 230, 140));
+
+        EnviarCorreoButton.setBackground(new java.awt.Color(25, 136, 25));
+        EnviarCorreoButton.setForeground(new java.awt.Color(238, 238, 238));
+        EnviarCorreoButton.setText("Enviar");
+        EnviarCorreoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        EnviarCorreoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnviarCorreoButtonActionPerformed(evt);
+            }
+        });
+        DatosPacientePanel.add(EnviarCorreoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 240, -1, -1));
+
+        MedirECGButton.setBackground(new java.awt.Color(25, 136, 25));
+        MedirECGButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ECGPlotter/logo.png"))); // NOI18N
+        MedirECGButton.setBorder(null);
+        MedirECGButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MedirECGButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MedirECGButtonActionPerformed(evt);
+            }
+        });
+        DatosPacientePanel.add(MedirECGButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 60, 60));
+
+        jLabel19.setText("Lugar");
+        DatosPacientePanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, -1, -1));
+
+        jLabel20.setText("Tipo");
+        DatosPacientePanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
+
+        TipoProgramarCitaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TipoProgramarCitaFieldActionPerformed(evt);
+            }
+        });
+        DatosPacientePanel.add(TipoProgramarCitaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 120, -1));
+        DatosPacientePanel.add(LugarProgramarCitaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 120, -1));
+
+        VistaPrincipalPanel.addTab("Datos del paciente", DatosPacientePanel);
+
+        RegistroECGPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        GraficaRealPanel.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout GraficaRealPanelLayout = new javax.swing.GroupLayout(GraficaRealPanel);
+        GraficaRealPanel.setLayout(GraficaRealPanelLayout);
+        GraficaRealPanelLayout.setHorizontalGroup(
+            GraficaRealPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        GraficaRealPanelLayout.setVerticalGroup(
+            GraficaRealPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        RegistroECGPanel.add(GraficaRealPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
+
+        FotoECGPanel.setBackground(new java.awt.Color(153, 153, 153));
+
+        javax.swing.GroupLayout FotoECGPanelLayout = new javax.swing.GroupLayout(FotoECGPanel);
+        FotoECGPanel.setLayout(FotoECGPanelLayout);
+        FotoECGPanelLayout.setHorizontalGroup(
+            FotoECGPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        FotoECGPanelLayout.setVerticalGroup(
+            FotoECGPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        RegistroECGPanel.add(FotoECGPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 280, 220));
+
+        AntecedentesArea.setColumns(20);
+        AntecedentesArea.setRows(5);
+        jScrollPane2.setViewportView(AntecedentesArea);
+
+        RegistroECGPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 30, 230, 100));
+
+        ObservacionesArea.setColumns(20);
+        ObservacionesArea.setRows(5);
+        jScrollPane3.setViewportView(ObservacionesArea);
+
+        RegistroECGPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 170, 230, 100));
+
+        jLabel14.setText("Antecedentes");
+        RegistroECGPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, -1, -1));
+
+        jLabel16.setText("Observaciones");
+        RegistroECGPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 140, -1, -1));
+
+        jLabel17.setText("Grafica guardada previamente");
+        RegistroECGPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
+
+        jLabel18.setText("Foto de la señal tomada previamente");
+        RegistroECGPanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 270, -1, -1));
+
+        VistaPrincipalPanel.addTab("Registro ECG", RegistroECGPanel);
+
+        ArchivoMenu.setText("Archivo");
+
+        CrearPacienteMenu.setText("Crear Paciente");
+        CrearPacienteMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearPacienteMenuActionPerformed(evt);
+            }
+        });
+        ArchivoMenu.add(CrearPacienteMenu);
+
+        CargarPacienteMenu.setText("Cargar Paciente");
+        CargarPacienteMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CargarPacienteMenuActionPerformed(evt);
+            }
+        });
+        ArchivoMenu.add(CargarPacienteMenu);
+
+        GuardarMenu.setText("Guardar Cambios");
+        GuardarMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarMenuActionPerformed(evt);
+            }
+        });
+        ArchivoMenu.add(GuardarMenu);
+
+        jMenuBar1.add(ArchivoMenu);
+
+        TodasLasCitasMenu.setText("Citas");
+
+        TodasCitasMenu.setText("Todas Las Citas");
+        TodasCitasMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TodasCitasMenuActionPerformed(evt);
+            }
+        });
+        TodasLasCitasMenu.add(TodasCitasMenu);
+
+        jMenuBar1.add(TodasLasCitasMenu);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(VistaPrincipalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 865, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(VistaPrincipalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void CargarPacienteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarPacienteMenuActionPerformed
+        // TODO add your handling code here:
+        CargarPaciente cargarpaciente = new CargarPaciente(this, true);
+        cargarpaciente.setVisible(true);
+        CargarPacienteActual(cargarpaciente.ObtenerResultadoBusqueda());
+    }//GEN-LAST:event_CargarPacienteMenuActionPerformed
+
+    private void GuardarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GuardarMenuActionPerformed
+
+    private void CrearPacienteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearPacienteMenuActionPerformed
+        // TODO add your handling code here:
+        CrearPaciente cp = new CrearPaciente(this, true);
+        cp.setVisible(true);
+    }//GEN-LAST:event_CrearPacienteMenuActionPerformed
+
+    private void FechaProgramarCitaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaProgramarCitaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FechaProgramarCitaFieldActionPerformed
+
+    private void EnviarCorreoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarCorreoButtonActionPerformed
+        // TODO add your handling code here:
+        EnviarCorreoPersonalizado("no.reply.ecgplotter@gmail.com", "ecgplott", CorreoLabel.getText(), AsuntoCorreoField.getText(), TextoCorreoArea.getText());
+        AsuntoCorreoField.setText("");
+        TextoCorreoArea.setText("");
+    }//GEN-LAST:event_EnviarCorreoButtonActionPerformed
+
+    private void ProgramarCitaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgramarCitaButtonActionPerformed
+        // TODO add your handling code here:
+        bd.MySQLConnection();
+        bd.GuardarCitas("citas", TipoProgramarCitaField.getText(), FechaProgramarCitaField.getText(), HoraProgramarCitaField.getText(), LugarProgramarCitaField.getText(), Integer.parseInt("" + 1), Integer.parseInt("" + PacienteActual[0]), "", "Pendiente");
+        bd.closeConnection();
+        ProximaCitaLabel.setText(FechaProgramarCitaField.getText());
+        TipoProgramarCitaField.setText("");
+        FechaProgramarCitaField.setText("");
+        HoraProgramarCitaField.setText("");
+        LugarProgramarCitaField.setText("");
+    }//GEN-LAST:event_ProgramarCitaButtonActionPerformed
+
+    private void MedirECGButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedirECGButtonActionPerformed
+        // TODO add your handling code here:
+        Medir me = new Medir(this, true);
+        me.setVisible(true);
+    }//GEN-LAST:event_MedirECGButtonActionPerformed
+
+    private void TodasCitasMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TodasCitasMenuActionPerformed
+        // TODO add your handling code here:
+        CitasProgramadas cp = new CitasProgramadas(this,true);
+        bd.MySQLConnection();
+        cp.AgregarCitas(bd.ObtenerCitasPorPaciente(Integer.parseInt(PacienteActual[0]),cp.ObtenerTabla()));
+        bd.closeConnection();
+        cp.setVisible(true);
+        
+    }//GEN-LAST:event_TodasCitasMenuActionPerformed
+
+    private void TipoProgramarCitaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoProgramarCitaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TipoProgramarCitaFieldActionPerformed
+
+    private void CargarPacienteActual(String[] paciente) {
+        if (paciente != null) {
+            NombreLabel.setText(paciente[1]);
+            ApellidosLabel.setText(paciente[2]);
+            TelefonoLabel.setText(paciente[8]);
+            SexoLabel.setText(paciente[9]);
+            CorreoLabel.setText(paciente[6]);
+            DireccionLabel.setText(paciente[7]);
+            ProximaCitaLabel.setText(paciente[11]);
+            UltimaCitaLabel.setText(paciente[12]);
+            AntecedentesArea.setText(paciente[10]);
+            
+            PacienteActual = paciente;
+            VistaPrincipalPanel.setVisible(true);
+            TodasLasCitasMenu.setVisible(true);
+        }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String Accion = e.getActionCommand();
+    private void EnviarCorreoPersonalizado(String Username, String pass, String To, String Subject, String Msg) {
+        
+       
+        Session session;
+        Properties props = new Properties();
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.port", "587");
 
-        if ("Cargar Paciente".equals(Accion)) {
-            CargarPaciente cp = new CargarPaciente(mainFrame, true);
-            cp.setVisible(true);
+        session = Session.getDefaultInstance(props);
+        session.setDebug(true);
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(Username));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(To));
+            message.setSubject(Subject);
+            message.setContent("<!DOCTYPE html> <html><head> <title></title> </head> <body style='font-family: fantasy;'> <div style='width: 438px; height: 22px; background-color: cornflowerblue; color: white; text-align: center;   '>ECGPlotter</div> <div style='width: 424px; height: 300px; position: absolute; left: 14px; border: 1px solid; text-align: justify; padding: 10px;'>"+ Msg + "</div> <label style='position: absolute; top: 338px; left: 13px; font-size: 10px; '>ECGPlotter es una aplcación de medida para la señal ECG y administracion de los resultados</label> </body> </html>","text/html");
+
+            Transport t = session.getTransport("smtp");
+            t.connect(Username,pass);
+            t.sendMessage(message,message.getAllRecipients());
+            JOptionPane.showMessageDialog(this, "Su mensaje ha sido enviado");
+            t.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error" + e);
         }
-
-        if ("Guardar".equals(Accion)) {
-            Medir medir = new Medir(mainFrame, true);
-            medir.setResizable(false);
-            medir.setVisible(true);
-
-        }
-
-        if ("Paciente Nuevo".equals(Accion)) {
-            CrearPaciente dialog = new CrearPaciente(mainFrame, true);
-
-            dialog.setVisible(true);
-
-        }
-
     }
 
+    public void setActualUser(String[] usuario){
+        UsuarioActual = usuario;
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea AntecedentesArea;
+    private javax.swing.JLabel ApellidosLabel;
+    private javax.swing.JMenu ArchivoMenu;
+    private javax.swing.JFormattedTextField AsuntoCorreoField;
+    private javax.swing.JMenuItem CargarPacienteMenu;
+    private javax.swing.JLabel CorreoLabel;
+    private javax.swing.JMenuItem CrearPacienteMenu;
+    private javax.swing.JPanel DatosPacientePanel;
+    private javax.swing.JLabel DireccionLabel;
+    private javax.swing.JButton EnviarCorreoButton;
+    private javax.swing.JFormattedTextField FechaProgramarCitaField;
+    private javax.swing.JPanel FotoECGPanel;
+    private javax.swing.JPanel GraficaRealPanel;
+    private javax.swing.JMenuItem GuardarMenu;
+    private javax.swing.JFormattedTextField HoraProgramarCitaField;
+    private javax.swing.JFormattedTextField LugarProgramarCitaField;
+    private javax.swing.JButton MedirECGButton;
+    private javax.swing.JLabel NombreLabel;
+    private javax.swing.JTextArea ObservacionesArea;
+    private javax.swing.JButton ProgramarCitaButton;
+    private javax.swing.JLabel ProximaCitaLabel;
+    private javax.swing.JPanel RegistroECGPanel;
+    private javax.swing.JLabel SexoLabel;
+    private javax.swing.JLabel TelefonoLabel;
+    private javax.swing.JTextArea TextoCorreoArea;
+    private javax.swing.JFormattedTextField TipoProgramarCitaField;
+    private javax.swing.JMenuItem TodasCitasMenu;
+    private javax.swing.JMenu TodasLasCitasMenu;
+    private javax.swing.JLabel UltimaCitaLabel;
+    private javax.swing.JTabbedPane VistaPrincipalPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    // End of variables declaration//GEN-END:variables
+    BDMySQL bd = new BDMySQL();
+    private String PacienteActual[] = null;
+    private String UsuarioActual[] = null;
 }

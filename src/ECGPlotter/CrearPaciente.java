@@ -16,7 +16,10 @@ public class CrearPaciente extends java.awt.Dialog {
      */
     public CrearPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
         initComponents();
+        Masculino.setActionCommand("M");
+        Femenino.setActionCommand("F");
     }
 
     /**
@@ -27,12 +30,27 @@ public class CrearPaciente extends java.awt.Dialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        SexoRadioGroup = new javax.swing.ButtonGroup();
         NombreLabel = new javax.swing.JLabel();
         NombreField = new javax.swing.JTextField();
         ApellidosLabel = new javax.swing.JLabel();
         ApellidosField = new javax.swing.JTextField();
         GuardarButton = new javax.swing.JButton();
         CancelarButton = new javax.swing.JButton();
+        CedulaLabel = new javax.swing.JLabel();
+        CedulaField = new javax.swing.JTextField();
+        Masculino = new javax.swing.JRadioButton();
+        Femenino = new javax.swing.JRadioButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        AntecedentesArea = new javax.swing.JTextArea();
+        AntecedentesLabel = new javax.swing.JLabel();
+        DireccionField = new javax.swing.JTextField();
+        DireccionLabel = new javax.swing.JLabel();
+        SexoLabel = new javax.swing.JLabel();
+        TelefonoField = new javax.swing.JTextField();
+        TelefonoLabel = new javax.swing.JLabel();
+        CorreoField = new javax.swing.JTextField();
+        CorreoLabel = new javax.swing.JLabel();
 
         setTitle("Paciente Nuevo");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -58,6 +76,8 @@ public class CrearPaciente extends java.awt.Dialog {
             }
         });
 
+        GuardarButton.setBackground(new java.awt.Color(25, 136, 25));
+        GuardarButton.setForeground(new java.awt.Color(238, 238, 238));
         GuardarButton.setText("Guardar");
         GuardarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,6 +85,8 @@ public class CrearPaciente extends java.awt.Dialog {
             }
         });
 
+        CancelarButton.setBackground(new java.awt.Color(25, 136, 25));
+        CancelarButton.setForeground(new java.awt.Color(238, 238, 238));
         CancelarButton.setText("Cancelar");
         CancelarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,42 +94,143 @@ public class CrearPaciente extends java.awt.Dialog {
             }
         });
 
+        CedulaLabel.setText("Cedula");
+
+        CedulaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CedulaFieldActionPerformed(evt);
+            }
+        });
+
+        SexoRadioGroup.add(Masculino);
+        Masculino.setText("Masculino");
+        Masculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MasculinoActionPerformed(evt);
+            }
+        });
+
+        SexoRadioGroup.add(Femenino);
+        Femenino.setText("Femenino");
+
+        AntecedentesArea.setColumns(20);
+        AntecedentesArea.setRows(5);
+        jScrollPane1.setViewportView(AntecedentesArea);
+
+        AntecedentesLabel.setText("Antecedentes");
+
+        DireccionField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DireccionFieldActionPerformed(evt);
+            }
+        });
+
+        DireccionLabel.setText("Dirección");
+
+        SexoLabel.setText("Sexo");
+        SexoLabel.setAutoscrolls(true);
+
+        TelefonoField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TelefonoFieldActionPerformed(evt);
+            }
+        });
+
+        TelefonoLabel.setText("Telefono");
+
+        CorreoField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CorreoFieldActionPerformed(evt);
+            }
+        });
+
+        CorreoLabel.setText("Correo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(CedulaLabel)
+                                .addComponent(ApellidosLabel)
+                                .addComponent(NombreField)
+                                .addComponent(NombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ApellidosField, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                                .addComponent(CedulaField, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                                .addComponent(CorreoLabel)
+                                .addComponent(CorreoField))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Masculino)
+                                .addGap(18, 18, 18)
+                                .addComponent(Femenino))
+                            .addComponent(SexoLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ApellidosLabel)
-                            .addComponent(NombreField)
-                            .addComponent(NombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ApellidosField, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
+                            .addComponent(AntecedentesLabel)
+                            .addComponent(jScrollPane1)
+                            .addComponent(DireccionLabel)
+                            .addComponent(DireccionField)
+                            .addComponent(TelefonoLabel)
+                            .addComponent(TelefonoField)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addGap(136, 136, 136)
                         .addComponent(GuardarButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addGap(27, 27, 27)
                         .addComponent(CancelarButton)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(NombreLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NombreField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ApellidosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ApellidosField, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(NombreLabel)
+                            .addComponent(AntecedentesLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(NombreField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ApellidosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ApellidosField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CedulaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CedulaField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(DireccionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DireccionField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(TelefonoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TelefonoField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(CorreoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CorreoField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(SexoLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Masculino)
+                    .addComponent(Femenino))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(GuardarButton)
                     .addComponent(CancelarButton))
-                .addGap(32, 32, 32))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -132,10 +255,10 @@ public class CrearPaciente extends java.awt.Dialog {
 
     private void GuardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarButtonActionPerformed
         // TODO add your handling code here:
-        bd.MySQLConnection(userBD, PassBD, nombreBD);
-        bd.InsertarDatos("usuarios","",NombreField.getText(),ApellidosField.getText(),"","");
+        bd.MySQLConnection();
+        bd.InsertarDatos("Pacientes","",NombreField.getText(),ApellidosField.getText(),"","",Integer.parseInt(CedulaField.getText()),CorreoField.getText(),DireccionField.getText(),Integer.parseInt(TelefonoField.getText()),SexoRadioGroup.getSelection().getActionCommand(),AntecedentesArea.getText(),"","");
         bd.closeConnection();
-        dispose();
+        dispose(); 
     }//GEN-LAST:event_GuardarButtonActionPerformed
 
     private void CancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarButtonActionPerformed
@@ -144,15 +267,51 @@ public class CrearPaciente extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_CancelarButtonActionPerformed
 
+    private void CedulaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CedulaFieldActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_CedulaFieldActionPerformed
+
+    private void MasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MasculinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MasculinoActionPerformed
+
+    private void DireccionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DireccionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DireccionFieldActionPerformed
+
+    private void TelefonoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefonoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TelefonoFieldActionPerformed
+
+    private void CorreoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CorreoFieldActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea AntecedentesArea;
+    private javax.swing.JLabel AntecedentesLabel;
     private javax.swing.JTextField ApellidosField;
     private javax.swing.JLabel ApellidosLabel;
     private javax.swing.JButton CancelarButton;
+    private javax.swing.JTextField CedulaField;
+    private javax.swing.JLabel CedulaLabel;
+    private javax.swing.JTextField CorreoField;
+    private javax.swing.JLabel CorreoLabel;
+    private javax.swing.JTextField DireccionField;
+    private javax.swing.JLabel DireccionLabel;
+    private javax.swing.JRadioButton Femenino;
     private javax.swing.JButton GuardarButton;
+    private javax.swing.JRadioButton Masculino;
     private javax.swing.JTextField NombreField;
     private javax.swing.JLabel NombreLabel;
+    private javax.swing.JLabel SexoLabel;
+    private javax.swing.ButtonGroup SexoRadioGroup;
+    private javax.swing.JTextField TelefonoField;
+    private javax.swing.JLabel TelefonoLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
     BDMySQL bd = new BDMySQL();
     String userBD = "root", PassBD = "root", nombreBD = "ECGPlotter";

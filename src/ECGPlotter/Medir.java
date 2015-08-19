@@ -5,8 +5,17 @@
  */
 package ECGPlotter;
 
+import com.panamahitek.PanamaHitek_Arduino;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -18,13 +27,28 @@ public class Medir extends java.awt.Dialog {
 
     /**
      * Creates new form Medir
+     * @param parent
+     * @param modal
      */
     public Medir(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(parent);
+       // this.Hilo = new Thread((Runnable) this);
         initComponents();
-        chart = new ChartPanel(osc.crearGrafica(collection));
+        serie1.add(0,0);
+        collection.addSeries(serie1);
+        chart = new ChartPanel(ECGChart);
         ContenedorOsciloscopio.setLayout(new BorderLayout());
         ContenedorOsciloscopio.add(chart, BorderLayout.CENTER);
+        for(int i = 0; i<200; i++){
+            serie1.add(i, 0);
+        }
+        try {
+            arduino.ArduinoRX("COM3",2000, 9600, evento);
+        } catch (Exception ex) {
+            Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -37,14 +61,12 @@ public class Medir extends java.awt.Dialog {
 
         jScrollBar1 = new javax.swing.JScrollBar();
         ContenedorOsciloscopio = new javax.swing.JPanel();
-        ControlLabel = new javax.swing.JLabel();
-        Usuarios = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         ObservacionesArea = new javax.swing.JTextArea();
-        ObservacionesLabel = new javax.swing.JLabel();
-        Grabar = new javax.swing.JButton();
+        Jlabel11111111 = new javax.swing.JLabel();
         GuardarImagenBoton = new javax.swing.JButton();
-        javax.swing.JButton GuardarECG = new javax.swing.JButton();
+        ObservacionesLabel1 = new javax.swing.JLabel();
+        FrecuenciaLabel = new javax.swing.JLabel();
 
         setTitle("Medición");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -55,36 +77,18 @@ public class Medir extends java.awt.Dialog {
 
         ContenedorOsciloscopio.setBackground(new java.awt.Color(102, 102, 102));
 
-        ControlLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ControlLabel.setText("Controles");
-        ControlLabel.setToolTipText("");
-
-        Usuarios.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Usuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Usuarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UsuariosActionPerformed(evt);
-            }
-        });
-
         ObservacionesArea.setColumns(20);
         ObservacionesArea.setRows(5);
         jScrollPane1.setViewportView(ObservacionesArea);
 
-        ObservacionesLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ObservacionesLabel.setText("Observaciones");
-        ObservacionesLabel.setToolTipText("");
+        Jlabel11111111.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Jlabel11111111.setForeground(new java.awt.Color(25, 136, 25));
+        Jlabel11111111.setText("Frecuencia (Hz):");
+        Jlabel11111111.setToolTipText("");
 
-        Grabar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Grabar.setText("Grabar");
-        Grabar.setToolTipText("");
-        Grabar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GrabarActionPerformed(evt);
-            }
-        });
-
+        GuardarImagenBoton.setBackground(new java.awt.Color(25, 136, 25));
         GuardarImagenBoton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        GuardarImagenBoton.setForeground(new java.awt.Color(238, 238, 238));
         GuardarImagenBoton.setText("Guardar Imagen");
         GuardarImagenBoton.setToolTipText("");
         GuardarImagenBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -93,61 +97,56 @@ public class Medir extends java.awt.Dialog {
             }
         });
 
-        GuardarECG.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        GuardarECG.setText("Guardar Registro ECG");
-        GuardarECG.setToolTipText("");
-        GuardarECG.setActionCommand("Guardar Registro ECG");
-        GuardarECG.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GuardarECGActionPerformed(evt);
-            }
-        });
+        ObservacionesLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        ObservacionesLabel1.setForeground(new java.awt.Color(25, 136, 25));
+        ObservacionesLabel1.setText("Observaciones");
+        ObservacionesLabel1.setToolTipText("");
+
+        FrecuenciaLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        FrecuenciaLabel.setForeground(new java.awt.Color(25, 136, 25));
+        FrecuenciaLabel.setText("Frecuencia");
+        FrecuenciaLabel.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 904, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(ObservacionesLabel1)
+                        .addGap(126, 126, 126)
+                        .addComponent(Jlabel11111111)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FrecuenciaLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ControlLabel)
-                            .addComponent(Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ObservacionesLabel))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(GuardarImagenBoton)
-                        .addGap(35, 35, 35)
-                        .addComponent(GuardarECG))))
+                .addComponent(GuardarImagenBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ObservacionesLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(ControlLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(ObservacionesLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100))
-                    .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GuardarImagenBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GuardarECG, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 29, Short.MAX_VALUE))
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Jlabel11111111)
+                            .addComponent(FrecuenciaLabel))))
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(GuardarImagenBoton)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,36 +157,33 @@ public class Medir extends java.awt.Dialog {
      */
     private void closeDialog(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeDialog
         setVisible(false);
+        try {
+            arduino.killArduinoConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dispose();
     }//GEN-LAST:event_closeDialog
 
-    private void UsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuariosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UsuariosActionPerformed
-
-    private void GrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GrabarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GrabarActionPerformed
-
     private void GuardarImagenBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarImagenBotonActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            ChartUtilities.saveChartAsPNG(new File("ecg_register.png"), ECGChart, 400, 300);
+        } catch (IOException ex) {
+            Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_GuardarImagenBotonActionPerformed
-
-    private void GuardarECGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarECGActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GuardarECGActionPerformed
 
     
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContenedorOsciloscopio;
-    private javax.swing.JLabel ControlLabel;
-    private javax.swing.JButton Grabar;
+    private javax.swing.JLabel FrecuenciaLabel;
     private javax.swing.JButton GuardarImagenBoton;
+    private javax.swing.JLabel Jlabel11111111;
     private javax.swing.JTextArea ObservacionesArea;
-    private javax.swing.JLabel ObservacionesLabel;
-    private javax.swing.JComboBox Usuarios;
+    private javax.swing.JLabel ObservacionesLabel1;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
@@ -195,4 +191,26 @@ public class Medir extends java.awt.Dialog {
     Osciloscopio osc = new Osciloscopio();
     final XYSeries serie1 = new XYSeries("ECG");
     final XYSeriesCollection collection = new XYSeriesCollection();
+    PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
+    int index = 0;
+    double num = 0;
+    JFreeChart ECGChart = osc.crearGrafica(collection);
+    Thread Hilo;
+    SerialPortEventListener evento = new SerialPortEventListener() {
+
+        @Override
+        public void serialEvent(SerialPortEvent spe) {
+           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(arduino.isMessageAvailable() == true){
+                index++;
+                num = Double.parseDouble(arduino.printMessage())*5/1024;
+                serie1.updateByIndex(index, num);
+                if(index == 200){
+                    index = 0;
+                }
+                FrecuenciaLabel.setText("" + num);
+            } else {
+            }
+        }
+    };
 }
