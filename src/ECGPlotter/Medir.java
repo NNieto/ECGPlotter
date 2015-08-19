@@ -64,9 +64,7 @@ public class Medir extends java.awt.Dialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         ObservacionesArea = new javax.swing.JTextArea();
         Jlabel11111111 = new javax.swing.JLabel();
-        Grabar = new javax.swing.JButton();
         GuardarImagenBoton = new javax.swing.JButton();
-        javax.swing.JButton GuardarECG = new javax.swing.JButton();
         ObservacionesLabel1 = new javax.swing.JLabel();
         FrecuenciaLabel = new javax.swing.JLabel();
 
@@ -88,17 +86,6 @@ public class Medir extends java.awt.Dialog {
         Jlabel11111111.setText("Frecuencia (Hz):");
         Jlabel11111111.setToolTipText("");
 
-        Grabar.setBackground(new java.awt.Color(25, 136, 25));
-        Grabar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Grabar.setForeground(new java.awt.Color(238, 238, 238));
-        Grabar.setText("Grabar");
-        Grabar.setToolTipText("");
-        Grabar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GrabarActionPerformed(evt);
-            }
-        });
-
         GuardarImagenBoton.setBackground(new java.awt.Color(25, 136, 25));
         GuardarImagenBoton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         GuardarImagenBoton.setForeground(new java.awt.Color(238, 238, 238));
@@ -107,17 +94,6 @@ public class Medir extends java.awt.Dialog {
         GuardarImagenBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GuardarImagenBotonActionPerformed(evt);
-            }
-        });
-
-        GuardarECG.setBackground(new java.awt.Color(25, 136, 25));
-        GuardarECG.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        GuardarECG.setForeground(new java.awt.Color(238, 238, 238));
-        GuardarECG.setText("Guardar Registro ECG");
-        GuardarECG.setToolTipText("");
-        GuardarECG.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GuardarECGActionPerformed(evt);
             }
         });
 
@@ -136,10 +112,6 @@ public class Medir extends java.awt.Dialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ContenedorOsciloscopio, javax.swing.GroupLayout.PREFERRED_SIZE, 904, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -150,13 +122,13 @@ public class Medir extends java.awt.Dialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(FrecuenciaLabel))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(GuardarImagenBoton)
-                        .addGap(39, 39, 39)
-                        .addComponent(GuardarECG, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(GuardarImagenBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,12 +144,9 @@ public class Medir extends java.awt.Dialog {
                             .addComponent(FrecuenciaLabel))))
                 .addGap(6, 6, 6)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Grabar)
-                    .addComponent(GuardarImagenBoton)
-                    .addComponent(GuardarECG))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(GuardarImagenBoton)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -196,25 +165,14 @@ public class Medir extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_closeDialog
 
-    private void GrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GrabarActionPerformed
-        // TODO add your handling code here:
-        index++;
-                //System.out.println(Integer.parseInt(arduino.printMessage())*5/1024);
-                serie1.add(index, 333);
-    }//GEN-LAST:event_GrabarActionPerformed
-
     private void GuardarImagenBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarImagenBotonActionPerformed
         try {
             // TODO add your handling code here:
-            ChartUtilities.saveChartAsPNG(new File("soft3d.png"), ECGChart, 400, 300);
+            ChartUtilities.saveChartAsPNG(new File("ecg_register.png"), ECGChart, 400, 300);
         } catch (IOException ex) {
             Logger.getLogger(Medir.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_GuardarImagenBotonActionPerformed
-
-    private void GuardarECGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarECGActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_GuardarECGActionPerformed
 
     
 
@@ -222,7 +180,6 @@ public class Medir extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContenedorOsciloscopio;
     private javax.swing.JLabel FrecuenciaLabel;
-    private javax.swing.JButton Grabar;
     private javax.swing.JButton GuardarImagenBoton;
     private javax.swing.JLabel Jlabel11111111;
     private javax.swing.JTextArea ObservacionesArea;
